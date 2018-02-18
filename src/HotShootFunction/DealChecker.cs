@@ -1,16 +1,17 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HotShootFunction
 {
     public class DealChecker
     {
-        public static async Task<bool> SendEmailIfProductDiscounted(string productName)
+        public static async Task<bool> SendEmailIfProductDiscounted(IEnumerable<string> productsList)
         {
-            var discounted = CheckHotShoot.isProductHotShoot(productName);
+            var discountedProductName = CheckHotShoot.ProductInHotShoot(productsList);
 
-            if (discounted)
+            if (discountedProductName != null)
             {
-                await EmailSender.SendEmailOnOfferFound(productName);
+                await EmailSender.SendEmailOnOfferFound(discountedProductName);
                 return true;
             }
             return false;
